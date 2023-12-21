@@ -63,33 +63,41 @@
             <button type="button" onclick="createPetition()">Créer la pétition</button>
         </form>
     </main>
-        <script>
-            function createPetition() {
-                var title = document.getElementById("petition_title").value;
-                var description = document.getElementById("petition_description").value;
-                var tags = document.getElementById("petition_tag").value;
-
-                fetch('/_ah/api/petitionApi/v1/createPetition', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title: title,
-                        description: description,
-                        tags: tags,
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Réponse de l\'API :', data);
-                })
-                .catch(error => console.error('Erreur lors de l\'appel API :', error));
-            }
-    </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        function createPetition() {
+            // Récupérer les valeurs des champs du formulaire
+            var title = document.getElementById("petition_title").value;
+            var description = document.getElementById("petition_description").value;
+            var tags = document.getElementById("petition_tag").value;
+    
+            // Créer un objet avec les données
+            var petitionData = {
+                title: title,
+                description: description,
+                tags: tags
+            };
+    
+            // Envoyer les données au backend
+            fetch('/_ah/api/myApi/v1/createPetition', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(petitionData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Traitement de la réponse du backend (si nécessaire)
+                console.log(data);
+            })
+            .catch(error => {
+                console.error('Erreur lors de la requête:', error);
+            });
+        }
+    </script>    
 </body>
 
 </html>
