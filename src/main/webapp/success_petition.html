@@ -22,12 +22,17 @@ var PetitionView = {
     view: function() {
         return m('div', [
             m("p", "Pétition créée avec succès!"),
-            m("button.btn.btn-primary", { href: "Petition.html" }, "Retour à l'accueil"),
-            m("button.btn.btn-success", { href: "Create_Petition.html" }, "Créer une nouvelle pétition")
+            m('button',{
+                class: 'button is-link',
+                onclick: function(e) {window.location.href = "Create_Petition.html"}
+                },"Créer une nouvelle pétition"),
+            m('button',{
+            class: 'button is-link',
+            onclick: function(e) {window.location.href = "Petition.html"}
+            },"Retour à l'accueil")
         ]);
     }
 };
-
 
 var Hello = {
    view: function() {
