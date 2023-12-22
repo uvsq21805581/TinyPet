@@ -1,95 +1,103 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TinyPet - Créer une pétition</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: darkgrey;
-        }
+<meta charset="UTF-8">
+<title>Créer un pétition</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-        header {
-            color: white;
-            text-align: center;
-            background-color: #6d5f4c;
-            font-size: 34px;
-            margin-bottom: 20px;
-            padding: 10px;
-        }
 
-        form {
-            margin: 10px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 
-        button {
-            margin-top: 10px;
-        }
-    </style>
+
+<script src="https://unpkg.com/mithril/mithril.js"></script>
+
 </head>
-
 <body>
-    <header>
-        <a href="Petition.html">
-            <h2>TinyPet</h2>
-        </a>
-    </header>
 
-    <main class="container">
-        <form id="petitionForm">
-            <div class="form-group">
-                <label for="petition_title">Titre de la pétition :</label>
-                <input type="text" class="form-control" id="petition_title" name="petition_title" required>
-            </div>
+<script>	
 
-            <div class="form-group">
-                <label for="petition_description">Description de la pétition :</label>
-                <textarea class="form-control" id="petition_description" name="petition_description" rows="4" required></textarea>
-            </div>
+var Petition={
+  title : '',
+  description : '',
+  tags: '',
 
-            <div class="form-group">
-                <label for="petition_tag">Tags (séparés par des virgules) :</label>
-                <input type="text" class="form-control" id="petition_tag" name="petition_tag" required>
-            </div>
-
-            <button type="button" onclick="createPetition()">Créer la pétition</button>
-        </form>
-    </main>
-        <script>
-            function createPetition() {
-                var title = document.getElementById("petition_title").value;
-                var description = document.getElementById("petition_description").value;
-                var tags = document.getElementById("petition_tag").value;
-
-                fetch('/_ah/api/petitionApi/v1/createPetition', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        title: title,
-                        description: description,
-                        tags: tags,
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('Réponse de l\'API :', data);
-                })
-                .catch(error => console.error('Erreur lors de l\'appel API :', error));
+    save: function() {
+        var data={
+            'title': Petition.title,
+            'description': Petition.description,
+            'tags': Petition.tags
             }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-</body>
+	    	console.log("saving V2",)
+	        return m.request({
+	            method: "POST",
+	            url: "_ah/api/myApi/v1/addpetition/"+Petition.title+"/"+Petition.description+"/"+Petition.tags,
+                body: data,
+	        })
+	        .then(function(result) {
+	        	console.log("got:",result)
+	        })
+            .then(function() {
+                window.location.href = "success_petition.html";
+            })
+	    }
+   }
+   // Petition
 
+var PetitionView={
+	view: function() {
+		return m('div', [
+			m('div',{class:'subtitle'},"Titre"),
+			m("input[type=text][placeholder=titre]", {
+				value: Petition.title,
+				class: 'input is-rounded',
+				 oninput: function (e) {
+					 Petition.title=e.target.value},
+				 }),
+            
+            m('div',{class:'subtitle'},"Description"),
+			m("textarea", {
+                placeholder: "Description",
+                value: Petition.description,
+                class: 'textarea is-rounded',
+                oninput: function (e) {
+                    Petition.description = e.target.value;
+                    },
+				 }),
+
+            m('div',{class:'subtitle'},"Tags"),
+			m("input[type=text][placeholder=tag]", {
+				value: Petition.tags,
+				class: 'input is-rounded',
+				 oninput: function (e) {
+					 Petition.tags=e.target.value},
+				 }),
+                 
+			m('button',{
+				class: 'button is-link',
+				onclick: function(e) {Petition.save()}
+			    },"Créer"),
+		])
+	}	
+}
+
+var Hello = {
+   view: function() {
+   	return m('div', {class:'container'}, [
+           m("h1", {class: 'title'}, 'Créer une pétition'),
+           m('div',{class: 'tile is-ancestor'},[
+               m("div", {class: 'tile'}, m('div',{class:'tile is-child box'},m(PetitionView))),
+           ])
+       ])
+   }
+}
+
+
+m.mount(document.body, Hello)	
+
+
+</script>
+</body>
 </html>
+    

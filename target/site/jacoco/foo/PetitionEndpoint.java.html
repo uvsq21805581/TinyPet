@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PetitionEndpoint.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WebAndCloud</a> &gt; <a href="index.source.html" class="el_package">foo</a> &gt; <span class="el_source">PetitionEndpoint.java</span></div><h1>PetitionEndpoint.java</h1><pre class="source lang-java linenums">package foo;
+
+import foo.Petition;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+
+import com.google.api.server.spi.auth.common.User;
+import com.google.api.server.spi.config.Api;
+import com.google.api.server.spi.config.ApiMethod;
+import com.google.api.server.spi.config.ApiMethod.HttpMethod;
+import com.google.api.server.spi.config.ApiNamespace;
+import com.google.api.server.spi.config.Named;
+import com.google.api.server.spi.config.Nullable;
+import com.google.api.server.spi.response.CollectionResponse;
+import com.google.api.server.spi.response.UnauthorizedException;
+import com.google.api.server.spi.auth.EspAuthenticator;
+
+import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.PropertyProjection;
+import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.QueryResultList;
+import com.google.appengine.api.datastore.Transaction;
+
+@Api(name = &quot;myApi&quot;,
+     version = &quot;v1&quot;,
+     audiences = &quot;1033985045867-2q1v90ob6p4rg6scihedmsj9cgiqt5cd.apps.googleusercontent.com&quot;,
+  	 clientIds = {&quot;1033985045867-2q1v90ob6p4rg6scihedmsj9cgiqt5cd.apps.googleusercontent.com&quot;,
+        &quot;927375242383-jm45ei76rdsfv7tmjv58tcsjjpvgkdje.apps.googleusercontent.com&quot;},
+     namespace =
+     @ApiNamespace(
+		   ownerDomain = &quot;helloworld.example.com&quot;,
+		   ownerName = &quot;helloworld.example.com&quot;,
+		   packagePath = &quot;&quot;)
+     )
+
+<span class="nc" id="L53">public class PetitionEndpoint {</span>
+
+    // @ApiMethod(name = &quot;createPetition&quot;, httpMethod = HttpMethod.POST)
+    // public Entity createPetition(Petition petition) {
+        // Utilise les propriétés de l'objet Petition pour créer une entité et la stocker dans le Datastore
+        // Entity e = new Entity(&quot;Petition&quot; + petition.getTitle());
+        // e.setProperty(&quot;title&quot;, petition.getTitle());
+        // e.setProperty(&quot;description&quot;, petition.getDescription());
+        // e.setProperty(&quot;tags&quot;, petition.getTags());
+        // pertitionEntity.setProperty(&quot;owner&quot;, petition.getOwner);
+        // e.setProperty(&quot;signature&quot;, 0);
+		// e.setProperty(&quot;date&quot;, new Date());
+
+    //     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    //     Transaction txn = datastore.beginTransaction();
+    //     datastore.put(e);
+    //     txn.commit();
+    //     return e;
+    // }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

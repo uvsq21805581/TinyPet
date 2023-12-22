@@ -1,40 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TinyPet</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-                background-color: darkgrey;
-            }
-            header {
-                color: white;
-                text-align: center;
-                background-color: #6d5f4c;
-                font-size: 34px;
-            }
-            nav {
-                color: white;
-                background-color: #6d5f4c;
-                padding: 10px;
-                text-align: center;
-            }
-            nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-            }
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Créer un pétition</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-        </style>
-    </head>
-    <body>
 
-        <header>TinyPet</header>
-        <nav>
-            <a href="Create_Petition.html">Créer une pétition</a>
-        </nav>        
-    </body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+
+<script src="https://unpkg.com/mithril/mithril.js"></script>
+
+</head>
+<body>
+
+<script>	
+
+var Header = {
+    view: function() {
+        return m("header", { class: "jumbotron text-center text-white bg-secondary" }, [
+            m("h1", { class: "display-2" }, "TinyPet")
+        ]);
+    }
+};
+
+var Navigation = {
+    view: function() {
+        return m("nav", { class: "navbar navbar-expand navbar-dark bg-secondary" }, [
+            m("ul.navbar-nav", [
+                m("li.nav-item", [
+                    m("a.nav-link", { href: "Create_Petition.html" }, "Créer une pétition")
+                ])
+            ])
+        ]);
+    }
+};
+
+var PetitionView = {
+    oninit: function(vnode) {
+        // Appeler la méthode du backend pour récupérer les pétitions
+        m.request({
+            method: "GET",
+            url: "_ah/api/myApi/v1/getPetitions"
+        }).then(function(response) {
+            // Stocker les pétitions dans une variable du composant
+            vnode.state.petitions = response.items;
+        });
+    },
+    view: function(vnode) {
+        // Afficher les pétitions récupérées
+        return m('div', [
+            m('h3', 'Liste des pétitions'),
+            m('ul', vnode.state.petitions.map(function(petition) {
+                return m('li', petition.properties.name);
+            }))
+        ]);
+    }
+};
+
+
+var App = {
+    view: function() {
+        return m("body", [
+            m(Header),
+            m(Navigation),
+            m(PetitionView)
+        ]);
+    }
+};
+
+m.mount(document.body, App);
+
+</script>
+</body>
 </html>
+    

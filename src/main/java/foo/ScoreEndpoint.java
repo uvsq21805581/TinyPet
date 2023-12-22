@@ -233,4 +233,33 @@ public class ScoreEndpoint {
 		txn.commit();
 		return e;
 	}
+
+    //TINYPET
+    @ApiMethod(name = "addpetition", httpMethod = HttpMethod.POST)
+	public Entity addpetition(@Named("title") String title, @Named("description") String description, @Named("tags") String tags) {
+
+		Entity e = new Entity("Petition", "" + title);
+		e.setProperty("name", title);
+		e.setProperty("score", description);
+        e.setProperty("tags", tags);
+
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		datastore.put(e);
+
+		return e;
+	}
+
+
+    @ApiMethod(name = "getPetitions", httpMethod = HttpMethod.GET)
+    public List<Entity> getPetitions() {
+    Query q = new Query("Petition").addSort("name", SortDirection.ASCENDING);
+
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery pq = datastore.prepare(q);
+    List<Entity> result = pq.asList(FetchOptions.Builder.withLimit(100));
+
+    return result;
+}
+
+
 }
